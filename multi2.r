@@ -28,10 +28,10 @@ k_list <- list()
 #plot(data,xlim=c(0,x[max_x]*2), ylim=c(0, y[max_y]*2))
 x_axis<-seq(0,x[max_x]*2)
 while(sumk<length(x)-2){
-  
-  #Initialize
-  #print(j)
-  #print("j start")
+
+	#Initialize
+	#print(j)
+	#print("j start")
 	laicmin<-0
 	laici<-0
 	gaicmin<-0
@@ -70,7 +70,6 @@ while(sumk<length(x)-2){
 			aicwn <- resultaic / (i+1-sumk)
 			AIC_array[i]<-aicwn
 			
-			
 			if(aicwn!=0){
 				if(laicmin==0){
 					laicmin<-aicwn
@@ -107,33 +106,31 @@ while(sumk<length(x)-2){
 	}
 	aicmin<-min(laicmin,gaicmin)
 	if(aicmin==laicmin){
-	  print("logistic")
-	  k<-laici
-	  if (j==1){
-	  	plotx<-tmpx[1:k]
-	  	ploty<-tmpy[1:k]
-	  }
-	  else
-	  {
-	  if(k<length(tmpx)) {
-		plotx<-x[k0+1:k]
-	    ploty<-y[k0+1:k]
-	    for(m in 1:length(plotx)){
-	      plotx[m]<-plotx[m] - x[k0]
-	      ploty[m]<-ploty[m] - y[k0]
-	      }
-	  } else {
-	    plotx<-x[k0+1:k]
-	    ploty<-y[k0+1:k]
-	    plotx<-plotx[!is.na(plotx)]
-	    ploty<-ploty[!is.na(ploty)]
-	    for(m in 1:length(plotx)){
-	      plotx[m]<-plotx[m] - x[k0]
-	      ploty[m]<-ploty[m] - y[k0]
-	    }
-	  }
-	  }
-	  plotx_axis<-seq(0,plotx[k]*2)
+		print("logistic")
+		k<-laici
+		if (j==1){
+			plotx<-tmpx[1:k]
+			ploty<-tmpy[1:k]
+		} else {
+			if(k<length(tmpx)) {
+				plotx<-x[k0+1:k]
+				ploty<-y[k0+1:k]
+				for(m in 1:length(plotx)){
+					plotx[m]<-plotx[m] - x[k0]
+					ploty[m]<-ploty[m] - y[k0]
+				}
+			} else {
+				plotx<-x[k0+1:k]
+				ploty<-y[k0+1:k]
+				plotx<-plotx[!is.na(plotx)]
+				ploty<-ploty[!is.na(ploty)]
+				for(m in 1:length(plotx)){
+					plotx[m]<-plotx[m] - x[k0]
+					ploty[m]<-ploty[m] - y[k0]
+				}
+			}
+		}
+		plotx_axis<-seq(0,plotx[k]*2)
 		tmpdata<-data.frame(plotx,ploty)
 		plotanslog<-try(plotanslog<-nls(ploty~SSlogis(plotx,A,B,C),algorithm = "port",trace=FALSE,control=nls.control(warnOnly=TRUE)))
 		plotpredict.c <- predict(plotanslog,list(plotx = plotx_axis))
@@ -141,33 +138,32 @@ while(sumk<length(x)-2){
 		plot(tmpdata,xlim=c(0,plotx[k]*2), ylim=c(0, ploty[k]*2), xlab="Day", ylab="# of Issues" )
 		lines(plotx_axis,plotpredict.c)
 		dev.off()
-	}	else {
-	  print("Gompertz")
-	  k<-gaici
-	  
-	  if (j==1){
-	  	plotx<-tmpx[1:k]
-	  	ploty<-tmpy[1:k]
-	  }
-	  else {
-		if(k<length(tmpx)) {
-			plotx<-x[k0+1:k]
-	   		ploty<-y[k0+1:k]
-	    	for(m in 1:length(plotx)){
-	      		plotx[m]<-plotx[m] - x[k0]
-	      		ploty[m]<-ploty[m] - y[k0]
-	    	}
-   	  	} else {
-      		plotx<-x[k0+1:k]
-      		ploty<-y[k0+1:k]
-      		plotx<-plotx[!is.na(plotx)]
-      		ploty<-ploty[!is.na(ploty)]
-      		for(m in 1:length(plotx)){
-       			plotx[m]<-plotx[m] - x[k0]
-        		ploty[m]<-ploty[m] - y[k0]
-      		}
-    	}
-	  }
+	} else {
+		print("Gompertz")
+		k<-gaici
+
+		if (j==1){
+			plotx<-tmpx[1:k]
+			ploty<-tmpy[1:k]
+		} else {
+			if(k<length(tmpx)) {
+				plotx<-x[k0+1:k]
+				ploty<-y[k0+1:k]
+				for(m in 1:length(plotx)){
+					plotx[m]<-plotx[m] - x[k0]
+					ploty[m]<-ploty[m] - y[k0]
+				}
+			} else {
+				plotx<-x[k0+1:k]
+				ploty<-y[k0+1:k]
+				plotx<-plotx[!is.na(plotx)]
+				ploty<-ploty[!is.na(ploty)]
+				for(m in 1:length(plotx)){
+					plotx[m]<-plotx[m] - x[k0]
+					ploty[m]<-ploty[m] - y[k0]
+				}
+			}
+		}
 		#print(length(plotx))
 		#print(k)
 		#print(max_x)
